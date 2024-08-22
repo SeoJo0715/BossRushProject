@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour 
@@ -12,6 +13,27 @@ public class PlayerController : MonoBehaviour
     private float jumpTime;
     private bool isJumping;
 
+    private IWeapon currentWeapon;
+    private List<IWeapon> weaponComponents = new();
+    private List<GameObject> weaponObjects = new();
+
+    private void Start()
+    {
+        var sword = GetComponentInChildren<Sword>(true);
+        var bow = GetComponentInChildren<Bow>(true);
+        var staff = GetComponentInChildren<Staff>(true);
+
+        weaponComponents.Add(sword);
+        weaponComponents.Add(bow);
+        weaponComponents.Add(staff);
+
+        weaponObjects.Add(sword.gameObject);
+        weaponObjects.Add(bow.gameObject);
+        weaponObjects.Add(staff.gameObject);
+
+        currentWeapon = sword;
+    }
+
     void Update() 
     {
         moveInput.x = Input.GetAxisRaw("Horizontal");
@@ -19,8 +41,7 @@ public class PlayerController : MonoBehaviour
         position.y = rigidBody.velocity.y;
         rigidBody.velocity = position;
 
-        
-        if (Input.GetKeyDown(KeyCode.X) && !isJumping) 
+        if (Input.GetKeyDown(KeyCode.UpArrow) && !isJumping) 
         {
             isJumping = true;
         }
@@ -38,6 +59,34 @@ public class PlayerController : MonoBehaviour
                 jumpTime = 0f;
                 rigidBody.velocity = position;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            SwapWeapon(0);
+        } 
+        else if(Input.GetKeyDown(KeyCode.S))
+        {
+            SwapWeapon(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            SwapWeapon(2);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            currentWeapon.Attack();
+        }
+    }
+
+    private void SwapWeapon(int index)
+    {
+        currentWeapon = weaponComponents[index];
+
+        for(int i=0; i<weaponObjects.Count; i++)
+        {
+            weaponObjects[i].SetActive(i == index);
         }
     }
 }
