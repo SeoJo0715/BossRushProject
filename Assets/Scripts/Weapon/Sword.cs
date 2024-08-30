@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour, IWeapon
 {
+    [SerializeField] private Collider2D swordCollider;
     [SerializeField] private Transform pivot;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float angle;
 
     private float angleValue;
     private bool isAttack;
+    private bool isTakeBoss;
 
     public void Attack()
     {
@@ -29,7 +31,7 @@ public class Sword : MonoBehaviour, IWeapon
     private IEnumerator WieldSword()
     {
         isAttack = true;
-
+        swordCollider.enabled = true;
         float targetAngle = angle;
         int phase = 1;
 
@@ -57,6 +59,8 @@ public class Sword : MonoBehaviour, IWeapon
         }
 
         isAttack = false;
+        isTakeBoss = false;
+        swordCollider.enabled = false;
     }
 
     private float NormalizeAngle(float angle)
@@ -67,5 +71,14 @@ public class Sword : MonoBehaviour, IWeapon
         }
             
         return angle;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("Boss") && !isTakeBoss)
+        {
+            collider.GetComponent<BossController>().TakeDamage(15);
+            isTakeBoss = true;
+        }
     }
 }

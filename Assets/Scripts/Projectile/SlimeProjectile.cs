@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fireball : MonoBehaviour, IProjectile
+public class SlimeProjectile : MonoBehaviour, IProjectile
 {
     [SerializeField] private float point;
     [SerializeField] private float duration;
@@ -14,21 +14,21 @@ public class Fireball : MonoBehaviour, IProjectile
         if (!isFiring)
         {
             gameObject.SetActive(true);
-            StartCoroutine(FiringFireball());
+            StartCoroutine(FiringProjectile());
         }
     }
 
     private void OnDisable()
     {
-        StopCoroutine(FiringFireball());
+        StopCoroutine(FiringProjectile());
         isFiring = false;
     }
 
-    private IEnumerator FiringFireball()
+    private IEnumerator FiringProjectile()
     {
         isFiring = true;
-        Vector3 startPoint = transform.position;
-        Vector3 endPoint = transform.position + new Vector3(point, 0, 0);
+        Vector3 startPoint = new Vector3(2.45f, 0, 0);
+        Vector3 endPoint = startPoint - new Vector3(point, 0, 0);
 
         float timeElapsed = 0f;
 

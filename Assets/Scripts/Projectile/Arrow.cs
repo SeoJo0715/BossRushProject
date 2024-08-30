@@ -58,4 +58,11 @@ public class Arrow : MonoBehaviour, IProjectile
 
         return Vector3.Lerp(p0p1, p1p2, t);
     }
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("Boss"))
+        {
+            collider.GetComponent<BossController>().TakeDamage(10);
+        }
+    }
 }
