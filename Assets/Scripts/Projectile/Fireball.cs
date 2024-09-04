@@ -51,6 +51,7 @@ public class Fireball : MonoBehaviour, IProjectile
         if (collider.gameObject.CompareTag("Boss"))
         {
             collider.GetComponent<BossController>().TakeDamage(20);
+            gameObject.SetActive(false);
         }
     }
 }

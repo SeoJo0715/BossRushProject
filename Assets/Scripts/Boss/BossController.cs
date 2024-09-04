@@ -8,28 +8,23 @@ public class BossController : MonoBehaviour
     [SerializeField] private Slider hpSlider;
 
     protected int maxHP;
+    protected int currentHP;
     protected float attckCoolTime;
 
-    private int currentHP;
-
-    private void Start()
-    {
-        currentHP = maxHP;
-        UpdateHPUI();
-    }
-
-    private void UpdateHPUI()
+    protected void UpdateHPUI()
     {
         if(hpSlider != null)
         {
             hpSlider.value = (float)currentHP / maxHP;
         }
     }
+
     public void TakeDamage(int damage)
     {
+        Debug.Log(currentHP + " - " + damage);
         currentHP -= damage;
         currentHP = Mathf.Clamp(currentHP, 0, maxHP);
-        Debug.Log(currentHP);
+        
         UpdateHPUI();
     }
 }

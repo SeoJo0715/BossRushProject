@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour 
 {
@@ -7,10 +8,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float jumpDuration;
+    [SerializeField] private Image[] maxHP;
 
     private Vector2 moveInput;
     private Vector2 position;
     private float jumpTime;
+    private int currentHP;
     private bool isJumping;
 
     private IWeapon currentWeapon;
@@ -32,6 +35,8 @@ public class PlayerController : MonoBehaviour
         weaponObjects.Add(staff.gameObject);
 
         currentWeapon = sword;
+
+        currentHP = maxHP.Length;
     }
 
     void Update() 
@@ -88,5 +93,21 @@ public class PlayerController : MonoBehaviour
         {
             weaponObjects[i].SetActive(i == index);
         }
+    }
+
+    private void UpdateHPUI()
+    {
+        if(maxHP != null)
+        {
+            maxHP[currentHP].gameObject.SetActive(false);
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHP -= damage;
+        currentHP = Mathf.Clamp(currentHP, 0, maxHP.Length);
+
+        UpdateHPUI();
     }
 }

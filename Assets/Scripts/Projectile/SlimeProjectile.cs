@@ -46,4 +46,13 @@ public class SlimeProjectile : MonoBehaviour, IProjectile
         gameObject.SetActive(false);
         isFiring = false;
     }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("Player"))
+        {
+            collider.GetComponent<PlayerController>().TakeDamage(1);
+            gameObject.SetActive(false);
+        }
+    }
 }

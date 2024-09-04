@@ -63,6 +63,7 @@ public class Arrow : MonoBehaviour, IProjectile
         if (collider.gameObject.CompareTag("Boss"))
         {
             collider.GetComponent<BossController>().TakeDamage(10);
+            gameObject.SetActive(false);
         }
     }
 }

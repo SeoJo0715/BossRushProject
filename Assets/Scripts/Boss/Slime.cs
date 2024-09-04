@@ -11,8 +11,11 @@ public class Slime : BossController
 
     private void Awake()
     {
+        currentHP = 100;
         maxHP = 100;
         attckCoolTime = 0.5f;
+
+        UpdateHPUI();
     }
 
     private void Start()
@@ -22,6 +25,8 @@ public class Slime : BossController
 
     private IEnumerator Attack()
     {
+        yield return new WaitForSeconds(20);
+
         if (projectileObject == null)
         {
             projectileObject = Instantiate(projectilePrefab);

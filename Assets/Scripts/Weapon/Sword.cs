@@ -79,6 +79,7 @@ public class Sword : MonoBehaviour, IWeapon
         {
             collider.GetComponent<BossController>().TakeDamage(15);
             isTakeBoss = true;
+            gameObject.SetActive(false);
         }
     }
 }
